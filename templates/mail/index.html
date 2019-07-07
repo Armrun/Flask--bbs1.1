@@ -1,0 +1,56 @@
+{% extends "topic/base.html" %}
+{% block title %}发送邮件{% endblock %}
+
+{% block main %}
+<div id='content'>
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>写邮件</span>
+        </div>
+        <div class='inner'>
+            <form id='setting_form' class='form-horizontal' action='{{ url_for('.add', token=token) }}' method='post'>
+                <div class='control-group'>
+                    <label class='control-label' for='name'>标题</label>
+                    <div class='controls'>
+                        <input class='input-xlarge readonly' id='name' name='title' type='text'/></div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='name'>收信人ID</label>
+                    <div class='controls'>
+                        <input class='input-xlarge' id='name' name='receiver_id' type='text'/></div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='signature'>邮件内容</label>
+                    <div class='controls'>
+                        <textarea class='input-xlarge' style="width: 60%; min-height: 150px;" id='signature' name='content'></textarea>
+                    </div>
+                </div>
+                <div class='form-actions'>
+                    <input type='submit' class='span-primary submit_btn' data-loading-text="发送中.." value='发送邮件' /></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">收到邮件</span>
+        </div>
+        {% for r in received %}
+            <div class="cell">
+                <a href="{{ url_for('.view', id = r.id) }}"> {{ r.title }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">发送邮件</span>
+        </div>
+        {% for s in send %}
+            <div class="cell">
+                <a href="{{ url_for('.view', id = s.id) }}"> {{ s.title }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

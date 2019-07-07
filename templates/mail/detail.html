@@ -1,0 +1,19 @@
+{% extends "topic/base.html" %}
+{% block title %}邮件详情{% endblock %}
+
+{% block main %}
+<div id='content'>
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">发件人 id: {{ message.sender_id }}</span>
+        </div>
+        <div class="header">
+            <span class="col_fade">收件人 id: {{ message.receiver_id }}</span>
+        </div>
+        <div class="cell">
+            <p>内容:</p>
+            <p>{{ message.content }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

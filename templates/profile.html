@@ -1,0 +1,90 @@
+{% extends "topic/base.html" %}
+{% block title %}个人主页{% endblock %}
+
+{% block main %}
+    <div id='content'>
+        <div class="panel">
+            <div class="header">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{{ url_for('topic.index') }}">主页</a>
+                        <span class="divider">/</span></li>
+                </ul>
+            </div>
+            <div class="inner userinfo">
+                <div class="user_big_avatar">
+                    <img src="{{ user.image }}" class="user_avatar" title="{{ user.username }}"></div>
+                <a class="dark">{{ user.username }}</a>
+                <p class="col_fade">注册时间 {{ user.created_time | format_time }}</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="header">
+                <span class="col_fade">最近创建的话题</span></div>
+            {% for t in topic %}
+                <div class="cell">
+                    <a class="user_avatar pull-left" href="{{ '/user/{}'.format(user.id) }}">
+                        <img src="{{ user.image }}" title="alsotang"></a>
+                    <span class="reply_count pull-left">
+                        <span class="count_of_replies" title="回复数">{{ t.replies() | count }}</span>
+                        <span class="count_seperator">/</span>
+                        <span class="count_of_visits" title="点击数">{{ t.views }}</span></span>
+                    <span class="last_time pull-right">
+                        <span class="time" data-updated_time="{{ t.updated_time }}"></span></span>
+                    <div class="topic_title_wrapper">
+                        <a class="topic_title" href="{{ '/topic/{}'.format(t.id) }}" title="{{ t.title }}">{{ t.title }}</a></div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="panel">
+            <div class="header">
+                    <span class="col_fade">最近参与的话题</span></div>
+            {% for t_in in topic_in %}
+                <div class="cell">
+                    <a class="user_avatar pull-left" href="{{ '/user/{}'.format(user.id) }}">
+                        <img src="{{ user.image }}" title="alsotang"></a>
+                    <span class="reply_count pull-left">
+                        <span class="count_of_replies" title="回复数">{{ t_in.replies() | count }}</span>
+                        <span class="count_seperator">/</span>
+                        <span class="count_of_visits" title="点击数">{{ t_in.views }}</span></span>
+                    <span class="last_time pull-right">
+                        <span class="time" data-updated_time="{{ t_in.updated_time }}"></span></span>
+                    <div class="topic_title_wrapper">
+                        <a class="topic_title" href="{{ '/topic/{}'.format(t_in.id) }}" title="{{ t_in.title }}">{{ t_in.title }}</a></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<script>
+var e = function (sel) {
+    return document.querySelector(sel)
+}
+
+var es = function (sel) {
+    return document.querySelectorAll(sel)
+}
+
+var registerTimer = function () {
+    setInterval(function () {
+        var times = es('.time')
+        for (var i = 0; i < times.length; i++) {
+            var t = times[i]
+            var time = Number(t.dataset.updated_time)
+            var now = Math.floor(new Date() / 1000)
+            var delta = now - time
+            var s = `${delta} 秒前`
+            t.innerText = s
+        }
+    }, 1000)
+}
+
+var __main = function () {
+    registerTimer()
+}
+
+__main()
+</script>
+{% endblock %}
